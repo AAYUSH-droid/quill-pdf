@@ -1,6 +1,7 @@
 import { cn } from "~/lib/utils";
 import { ReactNode } from "react";
 
+//basically to setup up styling give space from left and right
 const MaxWidthWrapper = ({
   className,
   children,
