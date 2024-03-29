@@ -5,6 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { ArrowRight } from "lucide-react";
+// import { api } from "@/trpc/react";
+// import { api } from "@/trpc/server";
 
 export default async function Home() {
   // const hello = await api.post.hello({ text: "from tRPC" });

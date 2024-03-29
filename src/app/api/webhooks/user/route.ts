@@ -5,6 +5,14 @@ import { NextResponse } from "next/server";
 import { Webhook } from "svix";
 import { db } from "@/server/db";
 
+/**
+ * Handles the POST request for the user webhook route.
+ * Verifies the webhook payload and processes the event if it is a "user.created" event.
+ * Inserts the user details into the database.
+ *
+ * @param req - The request object containing the webhook payload.
+ * @returns A response indicating the success or failure of the request.
+ */
 export async function POST(req: Request) {
   try {
     const WEBHOOK_SECRET = env.WEBHOOK_SECRET;
@@ -15,7 +23,7 @@ export async function POST(req: Request) {
       );
     }
 
-    // Get the headers -- svix headers
+    // Get the headers
     const headerPayload = headers();
     const svix_id = headerPayload.get("svix-id");
     const svix_timestamp = headerPayload.get("svix-timestamp");
