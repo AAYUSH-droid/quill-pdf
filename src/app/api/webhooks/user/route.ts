@@ -5,8 +5,6 @@ import { NextResponse } from "next/server";
 import { Webhook } from "svix";
 import { db } from "@/server/db";
 
-type EventType = "user.created";
-
 export async function POST(req: Request) {
   try {
     const WEBHOOK_SECRET = env.WEBHOOK_SECRET;

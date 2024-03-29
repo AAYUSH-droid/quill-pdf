@@ -1,14 +1,13 @@
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import Navbar from "@/components/Navbar";
+import { buttonVariants } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
-import { buttonVariants } from "@/components/ui/button";
 
-import { api } from "@/trpc/server";
 import { ArrowRight } from "lucide-react";
 
 export default async function Home() {
-  const hello = await api.post.hello({ text: "from tRPC" });
+  // const hello = await api.post.hello({ text: "from tRPC" });
 
   return (
     <div>
