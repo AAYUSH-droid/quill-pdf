@@ -1,6 +1,7 @@
 import "@/styles/globals.css";
 
 import { Inter } from "next/font/google";
+import "react-loading-skeleton/dist/skeleton.css";
 
 import { TRPCReactProvider } from "@/trpc/react";
 import { ClerkProvider } from "@clerk/nextjs";
