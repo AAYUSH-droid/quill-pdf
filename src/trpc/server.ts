@@ -14,7 +14,7 @@ const createContext = cache(() => {
   const heads = new Headers(headers());
   heads.set("x-trpc-source", "rsc");
 
-  // @ts-ignore
+  //@ts-expect-error
   return createTRPCContext({
     headers: heads,
   });
