@@ -14,7 +14,7 @@ const createContext = cache(() => {
   const heads = new Headers(headers());
   heads.set("x-trpc-source", "rsc");
 
-  //@ts-expect-error
+  //@ts-expect-error : Should expect NextApiRequest
   return createTRPCContext({
     headers: heads,
   });
