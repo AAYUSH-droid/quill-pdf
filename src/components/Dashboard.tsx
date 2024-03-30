@@ -4,9 +4,9 @@ import { api } from "@/trpc/react";
 import { format } from "date-fns";
 import { Ghost, Loader2, MessageSquare, Plus, Trash } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import UploadButton from "./UploadButton";
-import { useState } from "react";
 import { Button } from "./ui/button";
 
 const Dashboard = () => {
@@ -19,7 +19,7 @@ const Dashboard = () => {
   //delete file trpc logic
   const { mutate: deleteFile } = api.files.deleteFile.useMutation({
     onSuccess: () => {
-      utils.files.getUserFiles.invalidate();
+      utils.files.getUserFiles.invalidate().catch(console.error);
     },
     onMutate: ({ id }) => {
       setCurrentlyDeletingFile(id);
