@@ -5,6 +5,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 
 import { TRPCReactProvider } from "@/trpc/react";
 import { ClerkProvider } from "@clerk/nextjs";
+
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",

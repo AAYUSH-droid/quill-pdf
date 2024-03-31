@@ -40,4 +40,21 @@ export const filesRouter = createTRPCRouter({
       });
       return file;
     }),
+
+  //get a particular file with file id and userID
+  getFile: privateProcedure
+    .input(z.object({ fileId: z.string(), userID: z.string() }))
+    .query(async ({ input, ctx }) => {
+      const { auth } = ctx;
+      const file = await db.file.findFirst({
+        where: {
+          id: input?.fileId, //fileID
+          userId: auth.userId, //userID
+        },
+      });
+
+      if (!file) throw new TRPCError({ code: "NOT_FOUND" });
+
+      return file;
+    }),
 });

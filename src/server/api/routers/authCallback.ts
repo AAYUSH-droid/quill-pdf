@@ -1,6 +1,10 @@
 import { auth } from "@clerk/nextjs";
 
-import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
+import {
+  createTRPCRouter,
+  privateProcedure,
+  publicProcedure,
+} from "@/server/api/trpc";
 import { db } from "@/server/db";
 import { TRPCError } from "@trpc/server";
 
@@ -18,5 +22,14 @@ export const authCallbackRouter = createTRPCRouter({
       throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
     }
     return { success: true };
+  }),
+
+  returnUser: privateProcedure.query(async ({ ctx }) => {
+    const { auth, db } = ctx;
+    return await db.user.findFirst({
+      where: {
+        user_id: auth.userId,
+      },
+    });
   }),
 });
