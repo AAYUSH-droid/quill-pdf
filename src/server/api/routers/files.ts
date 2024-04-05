@@ -57,4 +57,21 @@ export const filesRouter = createTRPCRouter({
 
       return file;
     }),
+
+  //get file for polling with uploadthing
+  getFileForPolling: privateProcedure
+    .input(z.object({ key: z.string() }))
+    .mutation(async ({ input, ctx }) => {
+      const { auth } = ctx;
+      const file = await db.file.findFirst({
+        where: {
+          key: input.key,
+          userId: auth.userId,
+        },
+      });
+
+      if (!file) throw new TRPCError({ code: "NOT_FOUND" });
+
+      return file;
+    }),
 });

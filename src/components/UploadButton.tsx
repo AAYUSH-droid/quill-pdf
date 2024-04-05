@@ -7,10 +7,28 @@ import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
 
 import { Cloud, File, Loader2 } from "lucide-react";
 import { Progress } from "./ui/progress";
+import { useUploadThing } from "@/lib/uploadThing";
+import { useToast } from "./ui/use-toast";
+import { api } from "@/trpc/react";
+import { useRouter } from "next/navigation";
 
 const UploadDropZone = () => {
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [uploadProgress, setUploadProgress] = useState<number>(0);
+
+  const router = useRouter();
+
+  const { startUpload } = useUploadThing("pdfUploader");
+
+  const { toast } = useToast();
+
+  const { mutate: startPolling } = api.files.getFileForPolling.useMutation({
+    onSuccess: (file) => {
+      router.push(`dashboard/${file.id}`);
+    },
+    retry: true,
+    retryDelay: 500,
+  });
 
   const startSimulatedProgress = () => {
     setUploadProgress(0);
@@ -38,11 +56,31 @@ const UploadDropZone = () => {
         const progressInterval = startSimulatedProgress();
 
         // handle file uploading
+        const res = await startUpload(acceptedFile);
+        if (!res) {
+          return toast({
+            title: "Something went wrong",
+            description: "Please try again later",
+            variant: "destructive",
+          });
+        }
+
+        const [fileResponse] = res;
+        const key = fileResponse?.key;
+        if (!key) {
+          return toast({
+            title: "Something went wrong",
+            description: "Please try again later",
+            variant: "destructive",
+          });
+        }
+
         // const res = await startUpload(acceptedFile)
         // await new Promise((resolve) => setTimeout(resolve, 15000));
 
         clearInterval(progressInterval);
         setUploadProgress(100);
+        startPolling({ key });
       }}
     >
       {({ getRootProps, getInputProps, acceptedFiles }) => (
