@@ -5,6 +5,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 
 import { TRPCReactProvider } from "@/trpc/react";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -26,6 +27,7 @@ export default function RootLayout({
     <html lang="en">
       <ClerkProvider>
         <body className={`font-sans ${inter.variable}`}>
+          <Toaster />
           <TRPCReactProvider>{children}</TRPCReactProvider>
         </body>
       </ClerkProvider>

@@ -7,6 +7,7 @@ import {
 } from "@/server/api/trpc";
 import { db } from "@/server/db";
 import { TRPCError } from "@trpc/server";
+import { redirect } from "next/navigation";
 
 export const authCallbackRouter = createTRPCRouter({
   authCallback: publicProcedure.query(async () => {
@@ -26,10 +27,14 @@ export const authCallbackRouter = createTRPCRouter({
 
   returnUser: privateProcedure.query(async ({ ctx }) => {
     const { auth, db } = ctx;
-    return await db.user.findFirst({
+    const user = await db.user.findFirst({
       where: {
         user_id: auth.userId,
       },
     });
+    if (!user) {
+      throw new TRPCError({ code: "NOT_FOUND" });
+    }
+    return user;
   }),
 });
