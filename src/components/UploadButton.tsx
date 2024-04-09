@@ -57,6 +57,13 @@ const UploadDropZone = () => {
 
         // handle file uploading
         const res = await startUpload(acceptedFile);
+        // if (res) {
+        //   return toast({
+        //     title: "Upload complete",
+        //     description: "Succesfuly uploaded",
+        //     variant: "default",
+        //   });
+        // }
         if (!res) {
           return toast({
             title: "Something went wrong",
